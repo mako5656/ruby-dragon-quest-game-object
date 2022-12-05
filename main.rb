@@ -1,5 +1,8 @@
 class Brave
-  # 引数に**を記述：ハッシュしか受け取れなくなる
+  attr_reader :name, :offense, :defense
+  # セッターゲッターを一括定義
+  attr_accessor :hp
+
   def initialize(**params)
     @name = params[:name]
     @hp = params[:hp]
@@ -7,27 +10,17 @@ class Brave
     @defense = params[:defense]
   end
 
-  def name
-    @name
-  end
-
-  def hp
-    @hp
-  end
-
-  def offense
-    @offense
-  end
-
-  def defense
-    @defense
-  end
-
 end
 
 brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
 
-puts "NAME：#{brave.name}"
-puts "HP：#{brave.hp}"
-puts "OFFENSE：#{brave.offense}"
-puts "DEFENSE：#{brave.defense}"
+puts <<~TEXT
+NAME：#{brave.name}
+HP：#{brave.hp}
+OFFENSE：#{brave.offense}
+DEFENSE：#{brave.defense}
+TEXT
+
+brave.hp -= 30
+
+puts "#{brave.name}はダメージを受けた!　残りHPは#{brave.hp}だ"
