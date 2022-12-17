@@ -64,9 +64,7 @@ end
 
 
 class Monster
-  # nameを削除
   attr_reader :offense, :defense
-  # nameを追加
   attr_accessor :hp, :name
 
   POWER_UP_RATE = 1.5
@@ -89,7 +87,9 @@ class Monster
     end
     puts "#{@name}の攻撃"
 
-    damage = @offense - brave.defense
+    # ダメージ計算処理の呼び出し
+    damage = calculate_damage(brave)
+
     brave.hp -= damage
 
     puts "#{brave.name}は#{damage}のダメージを受けた"
@@ -97,6 +97,11 @@ class Monster
   end
 
   private
+
+    # ダメージ計算処理
+    def calculate_damage(target)
+      @offense - target.defense
+    end
 
     def transform
       transform_name = "ドラゴン"
@@ -111,6 +116,7 @@ class Monster
     end
 
 end
+
 
 brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
 monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
