@@ -2,7 +2,6 @@ class Brave
   attr_reader :name, :offense, :defense
   attr_accessor :hp
 
-  # 必殺攻撃の計算に使う定数
   SPECIAL_ATTACK_CONSTANT = 1.5
 
   def initialize(**params)
@@ -15,9 +14,11 @@ class Brave
   def attack(monster)
     puts "#{@name}の攻撃"
 
-    attack_num = rand(4)
+    # decision_attack_typeメソッドの呼び出し
+    attack_type = decision_attack_type
 
-    if attack_num == 0
+    # attack_typeを用いて攻撃処理を振り分け
+    if attack_type == "special_attack"
       puts "必殺攻撃"
       damage = calculate_special_attack - monster.defense
     else
@@ -31,11 +32,23 @@ class Brave
     puts "#{monster.name}の残りHPは#{monster.hp}だ"
   end
 
+  # 攻撃の種類（通常攻撃 or 必殺攻撃）を判定するメソッド
+  def decision_attack_type
+    attack_num = rand(4)
+
+    if attack_num == 0
+      "special_attack"
+    else
+      "normal_attack"
+    end
+  end
+
   def calculate_special_attack
     @offense * SPECIAL_ATTACK_CONSTANT
   end
 
 end
+
 
 
 class Monster
@@ -91,3 +104,4 @@ brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
 monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
 
 brave.attack(monster)
+monster.attack(brave)
