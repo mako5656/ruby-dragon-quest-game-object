@@ -79,6 +79,7 @@ class Monster
 
   def attack(brave)
     if @hp <= @trigger_of_transform && @transform_flag == false
+
       @transform_flag = true
       transform
     end
@@ -124,5 +125,17 @@ monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
 
 loop do
   brave.attack(monster)
+
+  # モンスターのHPが0以下になったら無限ループを終了させる
+  if monster.hp <= 0
+    break
+  end
+
   monster.attack(brave)
+
+  # 勇者のHPが0以下になったら無限ループを終了させる
+  if brave.hp <= 0
+    break
+  end
+
 end
