@@ -21,7 +21,6 @@ class Brave
     puts "#{monster.name}の残りHPは#{monster.hp}だ"
   end
 
-  # ここから下のメソッドをprivateメソッドにする
   private
 
     def decision_attack_type
@@ -61,8 +60,6 @@ class Brave
 
 end
 
-
-
 class Monster
   attr_reader :offense, :defense
   attr_accessor :hp, :name
@@ -85,22 +82,27 @@ class Monster
       @transform_flag = true
       transform
     end
+
     puts "#{@name}の攻撃"
 
-    # ダメージ計算処理の呼び出し
     damage = calculate_damage(brave)
+    cause_damage(target: brave, damage: damage)
 
-    brave.hp -= damage
-
-    puts "#{brave.name}は#{damage}のダメージを受けた"
     puts "#{brave.name}の残りHPは#{brave.hp}だ"
   end
 
   private
 
-    # ダメージ計算処理
     def calculate_damage(target)
       @offense - target.defense
+    end
+
+    def cause_damage(**params)
+      damage = params[:damage]
+      target = params[:target]
+
+      target.hp -= damage
+      puts "#{target.name}は#{damage}のダメージを受けた"
     end
 
     def transform
@@ -117,9 +119,10 @@ class Monster
 
 end
 
-
 brave = Brave.new(name: "テリー", hp: 500, offense: 150, defense: 100)
 monster = Monster.new(name: "スライム", hp: 250, offense: 200, defense: 100)
 
-brave.attack(monster)
-monster.attack(brave)
+loop do
+  brave.attack(monster)
+  monster.attack(brave)
+end
